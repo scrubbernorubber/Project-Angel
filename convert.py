@@ -5,10 +5,10 @@ import traceback
 import logging
 
 # Paths
-angel_file_path = "C:\\Users\\jrsea\\Desktop\\Custom Software\\Project Angel\\angel.xlsx"
-reference_file_path = "C:\\Users\\jrsea\\Desktop\\Custom Software\\Project Angel\\reference.xlsx"
-photos_folder_TS = "C:\\Users\\jrsea\\Desktop\\Custom Software\\Project Angel\\TS"
-photos_folder_HD = "C:\\Users\\jrsea\\Desktop\\Custom Software\\Project Angel\\HD"
+angel_file_path = "angel.xlsx"
+reference_file_path = "reference.xlsx"
+photos_folder_TS = "TS"
+photos_folder_HD = "HD"
 
 def read_excel(file_path):
     try:
