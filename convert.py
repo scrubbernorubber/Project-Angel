@@ -5,9 +5,10 @@ import traceback
 import logging
 
 # Paths
-angel_file_path = r"C:/Users/jrsea/Desktop/Custom Software/Project Angel/angel.xlsx"
-reference_file_path = r"C:/Users/jrsea/Desktop/Custom Software/Project Angel/reference.xlsx"
-photos_folder = r"C:/Users/jrsea/Desktop/Custom Software/Project Angel/TS"
+angel_file_path = "C:\\Users\\jrsea\\Desktop\\Custom Software\\Project Angel\\angel.xlsx"
+reference_file_path = "C:\\Users\\jrsea\\Desktop\\Custom Software\\Project Angel\\reference.xlsx"
+photos_folder_TS = "C:\\Users\\jrsea\\Desktop\\Custom Software\\Project Angel\\TS"
+photos_folder_HD = "C:\\Users\\jrsea\\Desktop\\Custom Software\\Project Angel\\HD"
 
 def read_excel(file_path):
     try:
@@ -23,7 +24,13 @@ def read_excel(file_path):
     for sku_cell, qty_cell in sheet.iter_rows(min_row=2, min_col=1, max_col=2, values_only=True):
         if sku_cell and qty_cell:
             sku_cell += '.png'
-            sku_path = os.path.join(photos_folder, sku_cell)
+            if "TS-" in sku_cell:
+                sku_path = os.path.join(photos_folder_TS, sku_cell)
+            elif "HD-" in sku_cell:
+                sku_path = os.path.join(photos_folder_HD, sku_cell)
+            else:
+                log_error(f"Error: SKU '{sku_cell}' does not match 'TS-' or 'HD-' prefix.")
+                continue
             skus.append(sku_path)
             qtys.append(int(qty_cell))
     
@@ -42,7 +49,13 @@ def read_reference(file_path):
         if sku_cell:
             patches = []
             if patch_cell:
-                patches.append(os.path.join(photos_folder, patch_cell + '.png'))
+                if "TS-" in patch_cell:
+                    patches.append(os.path.join(photos_folder_TS, patch_cell + '.png'))
+                elif "HD-" in patch_cell:
+                    patches.append(os.path.join(photos_folder_HD, patch_cell + '.png'))
+                else:
+                    log_error(f"Error: Patch '{patch_cell}' does not match 'TS-' or 'HD-' prefix.")
+                    continue
             reference_data[sku_cell] = patches
 
     return reference_data
